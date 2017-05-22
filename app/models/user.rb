@@ -7,4 +7,21 @@ class User < ApplicationRecord
   has_secure_password
   
   has_many :microposts
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_microposts, through: :favorites, source: :micropost
+  
+  def favorite(other_micropost)
+    unless self == other_micropost
+      self.favorites.find_or_create_by(micropost_id: other_micropost.id)
+    end
+  end
+  
+  def unfavorite(other_micropost)
+    favorite = self.favorites.find_by(micropost_id: other_micropost.id)
+    favorite.destroy if favorite
+  end
+  
+  def favorite?(other_micropost)
+    self.favorite_microposts.include?(other_micropost)
+  end
 end

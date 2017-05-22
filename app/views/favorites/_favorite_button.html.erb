@@ -1,0 +1,17 @@
+<% if current_user.favorite?(micropost) %>
+  <%= link_to "解除する", micropost_favorites_path(micropost),
+                          method: :delete,
+                          class: 'btn btn-danger btn-block' %>
+  <%#= form_for(current_user.favorites.find_by(micropost_id: micropost.id), html: { method: :delete }) do |f| %>
+    <%#= hidden_field_tag :micropost_id, micropost.id %>
+    <%#= f.submit 'Unfavorite', class: 'btn btn-danger btn-block' %>
+  <%# end %>
+<% else %>
+  <%= link_to "お気に入り", micropost_favorites_path(micropost),
+                          method: :post,
+                          class: 'btn btn-primary btn-block' %>
+  <%#= form_for(current_user.favorites.build) do |f| %>
+    <%#= hidden_field_tag :micropost_id, micropost.id %>
+    <%#= f.submit 'Favorite', class: 'btn btn-primary btn-block' %>
+  <%# end %>
+<% end %>
